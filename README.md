@@ -18,8 +18,11 @@ docker run --rm \
         -s '{"key":"mysecretkey2"}' \
         -o test2.conf
 ```
-will write 2 in folder `/etc/someconf` files:
-`test1.conf` (with permissons 0644)
-and `test2.conf` (perms 0600)
-with different `key` value
+This example write in folder `/etc/someconf` 2 files using template `test2.tpl` and data from `conf1.json` and `conf2.json`
+
+* `test1.conf` with permissons 0644
+* `test2.conf` with permissons 0600 and different `key` value
+
+
+
 
