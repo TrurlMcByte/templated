@@ -24,3 +24,18 @@ This example write in folder `/etc/someconf` 2 files using template `test2.tpl` 
 * `test1.conf` with permissons 0644
 * `test2.conf` with permissons 0600 and different `key` value
 
+## All parametrs
+```
+   -t, --templates {DIR}        reset template search path (default is "./")
+   -u, --curl {URL}             JSON config urls (multiple)
+   -s, --str {JSON-string}      JSON config from string (multiple)
+   -c, --cfile {FILE}           JSON config filepath (multiple)
+   -f, --file {FILE}            load template from file, render to stdout and exit
+   -o, --out {FILE}             write loaded template to file (multiple)
+   -p, --perm {PERM}            set permissions for created files (octal integer, default 0644)
+   -r, --reset                  reset global config
+   -U, --uid {UID}              set uid for created files (default -1, unchanged)
+   -G, --gid {GID}              set gid for created files (default -1, unchanged)
+   -d, --dump                   dump current config and exit
+   -v, --verbose                verbose output (to stderr)
+```
