@@ -6,18 +6,19 @@ from jinja2 import Environment, FileSystemLoader
 def main(argv):
     usage = """
 templated.py
-! All the arguments used in the order of declaration
+  All the arguments used in the order of declaration and can be called multiple times
    -t, --templates {DIR}        reset template search path (default is "./")
-   -u, --curl {URL}             JSON config urls (multiple)
-   -s, --str {JSON-string}      JSON config from string (multiple)
-   -c, --cfile {FILE}           JSON config filepath (multiple)
-   -f, --file {FILE}            load template from file, render to stdout and exit
-   -o, --out {FILE}             write loaded template to file (multiple)
+   -u, --curl {URL}             JSON config urls
+   -s, --str {JSON-string}      JSON config from string
+   -c, --cfile {FILE}           JSON config filepath
+   -f, --file {FILE}            load template from file
+   -T, --turl {URL}             load template from URL
+   -o, --out {FILE}             write last loaded template to file
    -p, --perm {PERM}            set permissions for created files (octal integer, default 0644)
    -r, --reset                  reset global config
    -U, --uid {UID}              set uid for created files (default -1, unchanged)
    -G, --gid {GID}              set gid for created files (default -1, unchanged)
-   -d, --dump                   dump current config and exit
+   -d, --dump                   dump global config to stdout
    -v, --verbose                verbose output (to stderr)
 """
     config = {}
@@ -60,12 +61,6 @@ templated.py
             config = {key: value for (key, value) in (config.items() + tconf.items())}
             if verbose:
                 print >> sys.stderr, 'load config file', arg
-        elif opt in ("-f", "--file"):
-            if verbose:
-                print >> sys.stderr, 'render template file', arg
-            template = templateEnv.get_template(arg)
-            print template.render(config)
-            sys.exit()
         elif opt in ("-r", "--reset"):
             if verbose:
                 print >> sys.stderr, 'reset config to zero'
@@ -81,6 +76,10 @@ templated.py
             tplurl = urllib.urlopen(arg);
             ctemplate = templateEnv.from_string(tplurl.read())
             tplurl.close()
+        elif opt in ("-f", "--file"):
+            if verbose:
+                print >> sys.stderr, 'load template from file', arg
+            ctemplate = templateEnv.get_template(arg)
         elif opt in ("-o", "--out"):
             if ctemplate != 0:
                 if verbose:
@@ -96,7 +95,6 @@ templated.py
             if verbose:
                 print >> sys.stderr, 'dump global config'
             print json.dumps(config)
-            sys.exit()
 
 
 if __name__ == "__main__":

@@ -26,16 +26,18 @@ This example write in folder `/etc/someconf` 2 files using template `test2.tpl` 
 
 ## All parametrs
 ```
+All the arguments used in the order of declaration and can be called multiple times
    -t, --templates {DIR}        reset template search path (default is "./")
-   -u, --curl {URL}             JSON config urls (multiple)
-   -s, --str {JSON-string}      JSON config from string (multiple)
-   -c, --cfile {FILE}           JSON config filepath (multiple)
-   -f, --file {FILE}            load template from file, render to stdout and exit
-   -o, --out {FILE}             write loaded template to file (multiple)
+   -u, --curl {URL}             JSON config urls
+   -s, --str {JSON-string}      JSON config from string
+   -c, --cfile {FILE}           JSON config filepath
+   -f, --file {FILE}            load template from file
+   -T, --turl {URL}             load template from URL
+   -o, --out {FILE}             write last loaded template to file
    -p, --perm {PERM}            set permissions for created files (octal integer, default 0644)
    -r, --reset                  reset global config
    -U, --uid {UID}              set uid for created files (default -1, unchanged)
    -G, --gid {GID}              set gid for created files (default -1, unchanged)
-   -d, --dump                   dump current config and exit
+   -d, --dump                   dump global config to stdout
    -v, --verbose                verbose output (to stderr)
 ```
