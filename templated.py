@@ -15,8 +15,8 @@ templated.py
    -o, --out {FILE}             write loaded template to file (multiple)
    -p, --perm {PERM}            set permissions for created files (octal integer, default 0644)
    -r, --reset                  reset global config
-   --uid {UID}                  set gid for created files (default -1, unchanged)
-   --gid {GID}                  set gid for created files (default -1, unchanged)
+   -U, --uid {UID}                  set gid for created files (default -1, unchanged)
+   -G, --gid {GID}                  set gid for created files (default -1, unchanged)
    -d, --dump                   dump current config and exit
    -v, --verbose                verbose output (to stderr)
 """
@@ -29,7 +29,7 @@ templated.py
     uid = -1
     gid = -1
     try:
-        opts, args = getopt.gnu_getopt(argv,"hru:c:dvf:t:T:o:s:p:",["curl=","cfile=","dump","verbose","file=","templates=","turl=","out=","reset","str=","perm=","uid=","gid="])
+        opts, args = getopt.gnu_getopt(argv,"hru:c:dvf:t:T:o:s:p:U:G:",["curl=","cfile=","dump","verbose","file=","templates=","turl=","out=","reset","str=","perm=","uid=","gid="])
     except getopt.GetoptError:
         print usage
         sys.exit(2)
@@ -39,10 +39,11 @@ templated.py
             sys.exit()
         elif opt in ("-v", "--verbose"):
             verbose=1
-        elif opt in ("--uid"):
-             uid = int(arg)
-        elif opt in ("--gid"):
-             gid = int(arg)
+        elif opt in ('-U','--suid'):
+            print opt
+            uid = int(arg)
+        elif opt in ('-G','--sgid'):
+            gid = int(arg)
         elif opt in ("-p", "--perm"):
             permissions = int(arg,8)
         elif opt in ("-t", "--templates"):
@@ -84,7 +85,7 @@ templated.py
             if ctemplate != 0:
                 if verbose:
                     print >> sys.stderr, 'render template to file', arg
-                fout = os.open(arg, os.O_RDWR|os.O_CREAT)
+                fout = os.open(arg,  os.O_WRONLY|os.O_CREAT|os.O_TRUNC)
                 os.fchmod(fout, permissions)
                 os.fchown(fout, uid, gid)
                 os.write(fout,ctemplate.render(config))
@@ -102,17 +103,7 @@ if __name__ == "__main__":
      main(sys.argv[1:])
 
 
-#print 'Number of arguments:', len(sys.argv), 'arguments.'
-#print 'Argument List:', str(sys.argv)
-#
-#THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-#
-#j2_env = Environment(loader=FileSystemLoader(THIS_DIR), trim_blocks=True)
-#
-#jsonurl = urllib.urlopen('http://home.mcbyte.net/core/conf/conf2.json')
-#conf1 = json.loads(jsonurl.read())
-#conf2 = json.load(open('conf.json', 'r'))
-#total_conf = {key: value for (key, value) in (conf1.items() + conf2.items())}
-#
-#print j2_env.get_template('test2.conf').render( total_conf )
-
+#payload = {'username': 'bob', 'email': 'bob@bob.com'}
+#>>> r = requests.put("http://somedomain.org/endpoint", data=payload)
+#r.status_code
+#r.content
