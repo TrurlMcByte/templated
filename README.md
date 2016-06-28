@@ -1,8 +1,6 @@
 # templated
 
 Dockerized (but not only) simple config generator from templates and JSON data using Jinja2
-=======
-Dockerized (but not only) simple config generator from templates and JSON data using Jinja2
 
 May collect (and merge) configuration data from JSON URL (including webdis, http://firebase.com or local `etcd`, for example), files, strings and generate config (but not only) files from template files/URLs.
 
