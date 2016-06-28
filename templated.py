@@ -15,8 +15,8 @@ templated.py
    -o, --out {FILE}             write loaded template to file (multiple)
    -p, --perm {PERM}            set permissions for created files (octal integer, default 0644)
    -r, --reset                  reset global config
-   -U, --uid {UID}                  set gid for created files (default -1, unchanged)
-   -G, --gid {GID}                  set gid for created files (default -1, unchanged)
+   -U, --uid {UID}              set uid for created files (default -1, unchanged)
+   -G, --gid {GID}              set gid for created files (default -1, unchanged)
    -d, --dump                   dump current config and exit
    -v, --verbose                verbose output (to stderr)
 """
