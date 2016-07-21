@@ -1,0 +1,9 @@
+*.tar*
+11*
+*.log
+.*.sh
+*.json
+*.txt
+*.conf
+tst*
+ng

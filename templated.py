@@ -1,7 +1,12 @@
 #!/usr/bin/python
 
-import os, sys, getopt, json, urllib
-from jinja2 import Environment, FileSystemLoader
+import os, sys, getopt, json, urllib, ssl
+from jinja2 import Environment, FileSystemLoader, contextfunction
+
+
+@contextfunction
+def get_context(c):
+         return c
 
 def main(argv):
     usage = """
@@ -24,8 +29,9 @@ templated.py
     config = {}
     verbose = 0
     templateLoader = FileSystemLoader( searchpath="./" )
-    templateEnv = Environment( loader=templateLoader )
+    templateEnv = Environment( loader=templateLoader, extensions=["jinja2.ext.do",] )
     ctemplate = 0
+    sslcontext = ssl._create_unverified_context()
     permissions = 0644
     uid = -1
     gid = -1
@@ -49,7 +55,7 @@ templated.py
             permissions = int(arg,8)
         elif opt in ("-t", "--templates"):
             templateLoader = FileSystemLoader( searchpath=arg )
-            templateEnv = Environment( loader=templateLoader )
+            templateEnv = Environment( loader=templateLoader, extensions=["jinja2.ext.do",] )
         elif opt in ("-u", "--curl"):
             jsonurl = urllib.urlopen(arg);
             tconf = json.loads(jsonurl.read())
@@ -87,6 +93,8 @@ templated.py
                 fout = os.open(arg,  os.O_WRONLY|os.O_CREAT|os.O_TRUNC)
                 os.fchmod(fout, permissions)
                 os.fchown(fout, uid, gid)
+                ctemplate.globals['context'] = get_context
+                ctemplate.globals['callable'] = callable
                 os.write(fout,ctemplate.render(config))
                 os.close(fout);
             else:
