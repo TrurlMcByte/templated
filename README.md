@@ -24,6 +24,9 @@ This example write in folder `/etc/someconf` 2 files using template `test2.tpl` 
 * `test1.conf` with permissons 0644
 * `test2.conf` with permissons 0600 and different `key` value
 
+## Limitation
+Any JSON data must be object (not string or bare array)
+
 ## All parametrs
 ```
 All the arguments used in the order of declaration and can be called multiple times
